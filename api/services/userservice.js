@@ -21,7 +21,11 @@ export const createUser = async ({ name, email, password }) => {
 };
 
 export const authenticateUser = async ({ email, password }) => {
-  const user = await User.findOne({ email }).select('+password');
+  const user = await User.findOne({
+    where: { email },
+    attributes: ['id', 'name', 'email', 'password'] // Inclui explicitamente o campo password
+  });
+
   if (!user) {
     throw new Error('Usuário não encontrado');
   }
@@ -31,7 +35,7 @@ export const authenticateUser = async ({ email, password }) => {
     throw new Error('Credencias inválidas');
   }
 
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
     expiresIn: '1h'
   });
 
