@@ -1,11 +1,10 @@
 import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import db from './database/configpg.js';
 import User from './models/User.js';
 import userRoute from './routes/userroute.js';
 import exemploeroute from './routes/exampleroute.js';
-
-dotenv.config();
 
 const app = express();
 
